@@ -1,0 +1,68 @@
+HOST  = 
+CC    = VBCC:bin/vc +aos68k
+STRIP = $(HOST)strip
+
+TARGET  = EditPad
+VERSION = 46
+LASTREV = $(shell c:type $(TARGET)_rev.rev)
+
+OPTIMIZE = -O2
+DEBUG    = -g -DDEBUG
+DEFINES  = 
+INCLUDES = -I. -IVBCC:OS3/muiinclude -IVBCC:OS3/local
+WARNINGS = -c99 -warn=-1 -dontwarn=79,81,163,164,166,167,168,306,307
+
+CFLAGS   = $(OPTIMIZE) $(DEBUG) $(DEFINES) $(INCLUDES) $(WARNINGS)
+LDFLAGS  = -LVBCC:OS3/lib
+LDLIBS   = -lamiga -lmui -lauto
+
+ifdef DEBUG
+LDLIBS += -ldebug
+endif
+
+STRIPFLAGS = #-R.comment --strip-unneeded-rel-relocs
+
+
+SRCS = EditPad.c Menu.c Events.c
+
+OBJS = $(SRCS:.c=.o)
+
+
+.PHONY: all
+all: $(TARGET)
+
+editpad_catalog.h: EditPad.cd
+	catcomp $< cfile $@
+
+EditPad.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h events.h editpad_catalog.h
+Menu.o: menu.h editpad_catalog.h
+Events.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h events.h editpad_catalog.h
+
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@.debug $^ $(LDLIBS)
+	C:Copy $@.debug $@ FORCE CLONE
+#	$(STRIP) $(STRIPFLAGS) -o $@ $@.debug
+
+%.catalog: %.ct catalogs/EditPad.cd
+	-flexcat CATALOG $@ catalogs/EditPad.cd $<
+
+
+.PHONY: catalogs
+catalogs:
+	flexcat EditPad.cd EditPad_ES.ct CATALOG catalogs/spanish/EditPad.catalog
+
+
+.PHONY: clean
+clean:
+	rm -f $(TARGET) $(TARGET).debug *.o
+
+
+.PHONY: revision
+revision:
+	bumprev -e si $(VERSION) $(TARGET)
+
+
+.PHONY: bumpdate
+bumpdate:
+	bumprev -e si -r $(LASTREV) $(VERSION) $(TARGET)

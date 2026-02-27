@@ -1,0 +1,229 @@
+; $VER: EditPad.cd 46.1 (19.02.2026)
+;
+; V46.1 (19.02.2026) - javierdlr <jabierdlr@gmail.com>
+;
+;
+MSG_PROJECT_MENU (//)
+Project
+;
+MSG_PROJECT_OPEN (//)
+Open
+;
+MSG_PROJECT_OPENFILE (//)
+File...
+;
+;MSG_PROJECT_RECENT (//)
+;Recent list
+;
+;MSG_PROJECT_RECENT_EMPTY (//)
+;empty
+;
+MSG_PROJECT_SAVE (//)
+Save
+;
+MSG_PROJECT_SAVEAS (//)
+Save as...
+;
+MSG_PROJECT_ABOUT (//)
+About...
+;
+MSG_PROJECT_ICONIFY (//)
+Iconify
+;
+MSG_PROJECT_QUIT (//)
+Quit
+;
+MSG_PROJECT_MUI_SETTINGS (//)
+MUI settings...
+;
+MSG_EDIT_MENU (//)
+Edit
+;
+MSG_EDIT_COPY (//)
+Copy
+;
+MSG_EDIT_CUT (//)
+Cut
+;
+MSG_EDIT_PASTE (//)
+Paste
+;
+MSG_EDIT_ERASE (//)
+Erase
+;
+MSG_EDIT_UNDO (//)
+Undo
+;
+MSG_EDIT_REDO (//)
+Redo
+;
+MSG_EDIT_CLEARALL (//)
+Clear all
+;
+MSG_NAVIGATION_MENU (//)
+Navigation
+;
+MSG_NAV_FIND (//)
+Find/Replace...
+;
+;MSG_NAV_REPLACE (//)
+;Replace...
+;
+MSG_NAV_GOTOLINE (//)
+Go to line
+;
+MSG_SETTINGS_MENU (//)
+Settings
+;
+MSG_SETTINGS_TABS (//)
+Tabs to spaces
+;
+;
+MSG_TOOLBAR_OPEN (100//)
+Open
+;
+MSG_TOOLBAR_SAVE (//)
+Save
+;
+MSG_TOOLBAR_COPY (//)
+Copy
+;
+MSG_TOOLBAR_CUT (//30)
+Cut
+;
+MSG_TOOLBAR_PASTE (//30)
+Paste
+;
+MSG_TOOLBAR_ERASE (//30)
+Erase
+;
+MSG_TOOLBAR_UNDO (//30)
+Undo
+;
+MSG_TOOLBAR_REDO (//30)
+Redo
+;
+MSG_TOOLBAR_CLEARALL (//30)
+Clear all
+;
+MSG_TOOLBAR_FIND (//30)
+Find
+;
+;
+MSG_OK_BUTTON_PLAIN (200//)
+OK
+;
+MSG_CONTINUE_BUTTON_PLAIN (//)
+Continue
+;
+MSG_APP_DESCRIPTION (//40)
+Simple and easy to use editor
+;
+MSG_STATUS_LIN_COL (//50)
+Line: %ld   Column: %ld
+;
+MSG_GOTOLINE_BUTTON (//)
+Go to line:
+;
+MSG_ABOUT_WRITTENBY (//40)
+Developed by
+;
+MSG_ABOUT_CONTRIB (//40)
+With contributions from
+;
+MSG_ABOUT_SOURCECODE (//40)
+Base source code by
+;
+MSG_REQUESTER_TITLE_WARN (//)
+EditPad: Warning
+;
+MSG_REQUESTER_QUIT_TEXT (//)
+\033c\033b%s\033n\n has been modified. Save it?
+;
+MSG_REQUESTER_QUIT_BUTTONS (//)
+_Discard|*_Save|_Cancel
+;
+MSG_FILE_UNNAMED (//)
+Unnamed
+;
+MSG_ASL_LOAD_TITLE (//)
+Select file to load
+;
+MSG_ASL_SAVE_TITLE (//)
+Save file as
+;
+;MSG_FIND_WINDOW_TITLE (//)
+;EditPad: Find
+;
+;MSG_REPLACE_WINDOW_TITLE (//)
+;EditPad: Replace
+;
+MSG_FIND_WINDOW_TITLE (//)
+Find & Replace
+;
+MSG_FIND_WIN_FIND_GAD (//)
+Find:
+;
+MSG_FIND_WIN_REPLACE_GAD (//)
+Replace:
+;
+MSG_FIND_WIN_CASE (//)
+Case sensiti_ve
+;
+MSG_FIND_WIN_FROMTOP (//)
+From _top
+;
+MSG_FIND_WIN_NEXT (//)
+_Next
+;
+MSG_FIND_WIN_SWAP (//)
+S_wap
+;
+MSG_FIND_WIN_PREV (//)
+_Previous
+;
+MSG_FIND_WIN_REPLACE (//)
+_Replace
+;
+MSG_FIND_WIN_REPLACEALL (//)
+Repl_ace all
+;
+MSG_FIND_WIN_CANCEL (//)
+_Cancel
+;
+MSG_FIND_NOMORE_ENTRIES (//)
+No (more) entries found.
+;
+MSG_FIND_REPLACE_NONE (//)
+'%s' not found.
+;
+MSG_FIND_REPLACE_ALL (//)
+'%s' replaced %ld times.
+;
+;
+MSG_ERROR_CLIPBOARD_EMPTY (300//)
+The clipboard is empty.
+;
+MSG_ERROR_CLIPBOARD_NOTEXT (//)
+The clipboard does not contain text.
+;
+MSG_ERROR_NOTHING_MARKED (//)
+No area marked.
+;
+MSG_ERROR_NO_REDO (//)
+Nothing to redo.
+;
+MSG_ERROR_NO_UNDO (//)
+Nothing to undo.
+;
+MSG_ERROR_NOT_ENOUGH_MEM (//)
+\033cNot enough memory to keep\n\
+the undo buffer.\n\n\
+The undobuffer is lost.
+;
+MSG_FAILED_CREATING_APP (//)
+Failed to create application\n
+;
+MSG_FAILED_OPEN_RESOURCE (//)
+Failed to open
+;

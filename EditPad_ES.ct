@@ -1,0 +1,281 @@
+## version $VER: editpad.catalog 46.1 (19.02.2026)
+## codeset 4
+## language spanish
+;
+;
+MSG_PROJECT_MENU
+Proyecto
+; Project
+;
+MSG_PROJECT_OPEN
+Abrir
+; Open
+;
+MSG_PROJECT_OPENFILE
+Fichero...
+; File...
+;
+MSG_PROJECT_SAVE
+Guardar
+; Save
+;
+MSG_PROJECT_SAVEAS
+Guardar como...
+; Save as...
+;
+MSG_PROJECT_ABOUT
+Acerca de...
+; About...
+;
+MSG_PROJECT_ICONIFY
+Iconificar
+; Iconify
+;
+MSG_PROJECT_QUIT
+Salir
+; Quit
+;
+MSG_PROJECT_MUI_SETTINGS
+Ajustes MUI...
+; MUI settings...
+;
+MSG_EDIT_MENU
+Editar
+; Edit
+;
+MSG_EDIT_COPY
+Copiar
+; Copy
+;
+MSG_EDIT_CUT
+Cortar
+; Cut
+;
+MSG_EDIT_PASTE
+Pegar
+; Paste
+;
+MSG_EDIT_ERASE
+Borrar
+; Erase
+;
+MSG_EDIT_UNDO
+Deshacer
+; Undo
+;
+MSG_EDIT_REDO
+Rehacer
+; Redo
+;
+MSG_EDIT_CLEARALL
+Limpiar todo
+; Clear all
+;
+MSG_NAVIGATION_MENU
+Navegación
+; Navigation
+;
+MSG_NAV_FIND
+Buscar/Reemplazar...
+; Find/Replace...
+;
+MSG_NAV_GOTOLINE
+Ir a linea
+; Go to line
+;
+MSG_SETTINGS_MENU
+Ajustes
+; Settings
+;
+MSG_SETTINGS_TABS
+Tabs. a espacios
+; Tabs to spaces
+;
+MSG_TOOLBAR_OPEN
+Abrir
+; Open
+;
+MSG_TOOLBAR_SAVE
+Guardar
+; Save
+;
+MSG_TOOLBAR_COPY
+Copiar
+; Copy
+;
+MSG_TOOLBAR_CUT
+Cortar
+; Cut
+;
+MSG_TOOLBAR_PASTE
+Pegar
+; Paste
+;
+MSG_TOOLBAR_ERASE
+Borrar
+; Erase
+;
+MSG_TOOLBAR_UNDO
+Deshacer
+; Undo
+;
+MSG_TOOLBAR_REDO
+Rehacer
+; Redo
+;
+MSG_TOOLBAR_CLEARALL
+Limpiar
+; Clear all
+;
+MSG_TOOLBAR_FIND
+Buscar
+; Find
+;
+MSG_OK_BUTTON_PLAIN
+Aceptar
+; OK
+;
+MSG_CONTINUE_BUTTON_PLAIN
+Continuar
+; Continue
+;
+MSG_APP_DESCRIPTION
+Editor simple y fácil de usar
+; Simple and easy to use editor
+;
+MSG_STATUS_LIN_COL
+Línea: %ld   Columna: %ld
+; Line: %ld   Column: %ld
+;
+MSG_GOTOLINE_BUTTON
+Ir a línea:
+; Go to line:
+;
+MSG_ABOUT_WRITTENBY
+Desarrollador por
+; Developed by
+;
+MSG_ABOUT_CONTRIB
+Con la ayuda de
+; With contributions from
+;
+MSG_ABOUT_SOURCECODE
+Basado en código por
+; Base source code by
+;
+MSG_REQUESTER_TITLE_WARN
+EdiPad: Aviso
+; EditPad: Warning
+;
+MSG_REQUESTER_QUIT_TEXT
+\033c\033b%s\033n\n ha sido modificado. ¿Guardarlo?
+; \033c\033b%s\033n\n has been modified. Save it?
+;
+MSG_REQUESTER_QUIT_BUTTONS
+_Descartar|*_Guardar|_Cancelar
+; _Discard|*_Save|_Cancel
+;
+MSG_FILE_UNNAMED
+SinNombre
+; Unnamed
+;
+MSG_ASL_LOAD_TITLE
+Elegir fichero a cargar
+; Select file to load
+;
+MSG_ASL_SAVE_TITLE
+Guardar fichero como
+; Save file as
+;
+MSG_FIND_WINDOW_TITLE
+Buscar y Reemplazar
+; Find & Replace
+;
+MSG_FIND_WIN_FIND_GAD
+Buscar:
+; Find:
+;
+MSG_FIND_WIN_REPLACE_GAD
+Reemplazar:
+; Replace:
+;
+MSG_FIND_WIN_CASE
+MAYÚS. <> minús.
+; Case sensiti_ve
+;
+MSG_FIND_WIN_FROMTOP
+Desde _inicio
+; From _top
+;
+MSG_FIND_WIN_NEXT
+_Siguiente
+; _Next
+;
+MSG_FIND_WIN_SWAP
+Interca_m.
+; S_wap
+;
+MSG_FIND_WIN_PREV
+A_nterior
+; _Previous
+;
+MSG_FIND_WIN_REPLACE
+_Reemplazar
+; _Replace
+;
+MSG_FIND_WIN_REPLACEALL
+Reemp. _todo
+; Repl_ace all
+;
+MSG_FIND_WIN_CANCEL
+_Cancelar
+; _Cancel
+;
+MSG_FIND_NOMORE_ENTRIES
+No más coincidencias encontradas.
+; No (more) entries found.
+;
+MSG_FIND_REPLACE_NONE
+'%s' no encontrado.
+; '%s' not found.
+;
+MSG_FIND_REPLACE_ALL
+'%s' reemplazada en %ld ocasiones.
+; '%s' replaced %ld times.
+;
+MSG_ERROR_CLIPBOARD_EMPTY
+El portapapeles está vacío.
+; The clipboard is empty.
+;
+MSG_ERROR_CLIPBOARD_NOTEXT
+El portapapeles no contiene texto.
+; The clipboard does not contain text.
+;
+MSG_ERROR_NOTHING_MARKED
+Nada marcado.
+; No area marked.
+;
+MSG_ERROR_NO_REDO
+Nada a rehacer.
+; Nothing to redo.
+;
+MSG_ERROR_NO_UNDO
+Nada a deshacer.
+; Nothing to undo.
+;
+MSG_ERROR_NOT_ENOUGH_MEM
+\033cMemoria insuficiente para mantener\n\
+el búfer de deshacer.\n\n\
+Búfer de deshacer perdido.
+; \033cNot enough memory to keep\n\
+; the undo buffer.\n\n\
+; The undobuffer is lost.
+;
+MSG_FAILED_CREATING_APP
+Fallo al crear aplicación\n
+; Failed to create application\n
+;
+MSG_FAILED_OPEN_RESOURCE
+Fallo al abrir
+; Failed to open
+;
