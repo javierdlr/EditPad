@@ -23,7 +23,7 @@ LDLIBS   =
 STRIPFLAGS = #-R.comment --strip-unneeded-rel-relocs
 
 
-SRCS = EditPad.c Menu.c Events.c
+SRCS = EditPad.c Menu.c Events.c ArexxCmds.c Misc.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -34,9 +34,11 @@ all: $(TARGET)
 editpad_catalog.h: EditPad.cd
 	catcomp $< cfile $@
 
-EditPad.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h events.h editpad_catalog.h
-Menu.o: menu.h editpad_catalog.h
+EditPad.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h editpad_catalog.h
+Menu.o: menu.h editpad.h editpad_catalog.h
 Events.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h events.h editpad_catalog.h
+ArexxCmds.o: arexxcmds.h editpad.h menu.h
+Misc.o: misc.h editpad.h menu.h
 
 
 $(TARGET): $(OBJS)
@@ -51,6 +53,7 @@ $(TARGET): $(OBJS)
 .PHONY: catalogs
 catalogs:
 	flexcat EditPad.cd EditPad_ES.ct CATALOG catalogs/spanish/EditPad.catalog
+
 
 .PHONY: clean
 clean:

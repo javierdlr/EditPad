@@ -17,12 +17,15 @@ enum {
  MID_PROJECT_QUIT,
 //EDIT
  MID_EDIT_MENU,
- MID_EDIT_COPY,
  MID_EDIT_CUT,
+ MID_EDIT_COPY,
  MID_EDIT_PASTE,
+ MID_EDIT_MARKALL,
  MID_EDIT_ERASE,
  MID_EDIT_UNDO,
  MID_EDIT_REDO,
+ MID_EDIT_TOUPPER,
+ MID_EDIT_TOLOWER,
  MID_EDIT_CLEARALL,
 //NAVIGATION
  MID_NAVIGATION_MENU,
@@ -33,6 +36,7 @@ enum {
  MID_SETTINGS_MENU,
  MID_SETTINGS_TABS,
 // RECENT items
+ MID_PROJECT_RECENTCLEAR,
  MID_PROJECT_RECENTBAR,
  MID_PROJECT_RECENT1,
  MID_PROJECT_RECENT2,
@@ -43,13 +47,28 @@ enum {
  MID_END
 };
 
+enum {
+ PID_DUMMY = 200,
+ PID_CUT,
+ PID_COPY,
+ PID_PASTE,
+ PID_ERASE,
+ PID_MARKALL,
 
-#define MAX_RECENT  5
+ PID_END
+};
 
 
-APTR Create_Menu(void);//struct editpad_data *);
-void Add_RecentMenuEntry(struct editpad_data *);
-void Remove_RecentMenuEntry(struct editpad_data *);
+#define RECENT_PATH  "ENVARC:"
+#define RECENT_FILE  "EditPad_recent"
+
+
+APTR Create_Menu(void);
+void Add_RecentMenuEntry(struct editpad_data *, STRPTR str);
+void SaveRecentList_FreeEntries(struct editpad_data *);
+//void Save_RecentList(struct editpad_data *);
+void Load_RecentsFile(struct editpad_data *);
+APTR Create_PopUpMenu(void);
 
 
 #endif

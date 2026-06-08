@@ -4,9 +4,12 @@
                 MUIA_Application_Version,     VSTRING,
                 MUIA_Application_Copyright,   "(c)2005-2010 by TextEditor.mcc Open Source Team\n(c)2026, AmigaKit Ltd",
                 MUIA_Application_Author,      "TextEditor.mcc Open Source Team\nReworked by AmigaKit Ltd",
-                MUIA_Application_Base,        PROGNAME, // aka ARexx port
+                MUIA_Application_Base,        EPD->epd_PortName, // aka ARexx port
+                MUIA_Application_SingleTask,  EPD->epd_PortUnique,
                 MUIA_Application_Description, GetString(&li, MSG_APP_DESCRIPTION),
-                //MUIA_Application_RexxHook,    &ARexxHook,
+                //MUIA_Application_RexxHook, &EPD->ARexxHook,
+                MUIA_Application_Commands, EPD->ARexxCmds,
+                MUIA_Application_UseRexx,  TRUE,
                 //MUIA_Application_UsedClasses, classes,
                 MUIA_Application_DiskObject,  dobj,
                 SubWindow, EPD->Win = WindowObject,
@@ -18,62 +21,7 @@
                   MUIA_Window_Height,      MUIV_Window_Height_Screen(50),
                   WindowContents, VGroup,
 // Toolbar/Buttons
-                      Child, HGroup, //MUIA_Group_SameSize,TRUE,
-                          ReadListFrame,
-                          MUIA_Background, MUII_GroupBack,//MUII_BACKGROUND,
-//                        Child, RowGroup(2),
-
-                          //Child, load = PopaslObject,
-                          /*Child, EPD->LoadObj = PopaslObject,
-                              MUIA_Popasl_Type, ASL_FileRequest,
-                                           ASLFR_TitleText,     GetString(&li,MSG_ASL_LOAD_TITLE),
-                                           //ASLFR_InitialDrawer, "PROGDIR:",
-                                           //ASLFR_InitialFile,   NULL,
-                                           //ASLFR_FilterFunc,    &EPD->epd_FilterHook,
-                                           ASLFR_Window,      EPD->MainWin,
-                                           ASLFR_SleepWindow, TRUE,
-                              MUIA_Popasl_StartHook, &EPD->ASL_startHook,
-                              MUIA_Popasl_StopHook,  &EPD->ASL_stopHook,
-                              //MUIA_Popstring_String, KeyString(NULL, MAX_DOS_PATH, 0),
-                              MUIA_Popstring_Button, buttonObj(images_btns[BTN_LOAD]),
-                          End,*/
-                          Child, open = buttonObj(images_btns[BTN_OPEN]),
-                          Child, save = buttonObj(images_btns[BTN_SAVE]),
-
-                          //Child, RectangleObject, MUIA_Rectangle_VBar,TRUE, End,
-                          Child, HSpace(4),
-
-                          Child, copy  = buttonObj(images_btns[BTN_COPY]),
-                          Child, cut   = buttonObj(images_btns[BTN_CUT]),
-                          Child, paste = buttonObj(images_btns[BTN_PASTE]),
-                          Child, erase = buttonObj(images_btns[BTN_ERASE]),
-
-                          //Child, RectangleObject, End,
-                          Child, HSpace(4),
-
-                          Child, undo = buttonObj(images_btns[BTN_UNDO]),
-                          Child, redo = buttonObj(images_btns[BTN_REDO]),
-
-                          //Child, RectangleObject, End,
-                          Child, HSpace(4),
-
-                          Child, clear = buttonObj(images_btns[BTN_CLR]),
-
-                          //Child, RectangleObject, End,
-                          Child, HSpace(4),
-
-                          Child, search = buttonObj(images_btns[BTN_FIND]),
-
-                          //Child, bold      = imageObj("\33I[4:TBIMAGES:font_bold]",   'b'),
-                          //Child, italic    = imageObj("\33I[4:TBIMAGES:font_italic]", 'i'),
-                          //Child, underline = imageObj("\33I[4:TBIMAGES:font_uline]",  'u'),
-
-                          //Child, RectangleObject, End,
-                          Child, HSpace(0),
-                          Child, HSpace(0),
-//                        End,
-
-                      End,
+                      Child, tbar = create_Toolbar(),
 // Editor gadget, Vertical and Horizontal scrollers
                       Child, VGroup,
                           //MUIA_Frame,        MUIV_Frame_Group,
@@ -81,7 +29,7 @@
                         Child, HGroup,
                             MUIA_Group_Spacing, 0,
                             Child, EPD->EditorObj = NewObject(editor_mcc->mcc_Class, NULL,
-                                //MUIA_ContextMenu, EPD->epd_EditPopup,
+                                MUIA_ContextMenu, EPD->EditPopup,
                                 MUIA_TextEditor_FixedFont,   TRUE,
                                 MUIA_TextEditor_WrapMode,    MUIV_TextEditor_WrapMode_NoWrap,
                                 MUIA_TextEditor_ConvertTabs, FALSE,

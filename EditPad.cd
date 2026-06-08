@@ -1,6 +1,11 @@
-; $VER: EditPad.cd 46.1 (19.02.2026)
+; $VER: EditPad.cd 46.2 (03.03.2026)
 ;
-; V46.1 (19.02.2026) - javierdlr <jabierdlr@gmail.com>
+; V46.1 (23.02.2026) - javierdlr <jabierdlr@gmail.com>
+;
+; V46.2 (02.03.2026) - javierdlr <jabierdlr@gmail.com>
+;      Added: MSG_ABOUT_AREXXPORT, MSG_EDIT_TOUPPER, MSG_EDIT_TOLOWER,
+;             MSG_EDIT_MARKALL, MSG_ERROR_SAVINGFILE, MSG_ERROR_LOADINGFILE,
+;             MSG_PROJECT_RECENTCLEAR, MSG_ERROR_SAVINGRECENT
 ;
 ;
 MSG_PROJECT_MENU (//)
@@ -107,7 +112,20 @@ MSG_TOOLBAR_CLEARALL (//30)
 Clear all
 ;
 MSG_TOOLBAR_FIND (//30)
-Find
+_Find
+;
+;46.2
+MSG_EDIT_TOUPPER (//)
+To UPPER case
+;
+MSG_EDIT_TOLOWER (//)
+To lower case
+;
+MSG_EDIT_MARKALL (//)
+Mark all
+;
+MSG_PROJECT_RECENTCLEAR (//)
+-Clear Recent List-
 ;
 ;
 MSG_OK_BUTTON_PLAIN (200//)
@@ -200,6 +218,10 @@ MSG_FIND_REPLACE_NONE (//)
 MSG_FIND_REPLACE_ALL (//)
 '%s' replaced %ld times.
 ;
+;46.2
+MSG_ABOUT_AREXXPORT (//)
+ARexx port:
+;
 ;
 MSG_ERROR_CLIPBOARD_EMPTY (300//)
 The clipboard is empty.
@@ -222,8 +244,18 @@ the undo buffer.\n\n\
 The undobuffer is lost.
 ;
 MSG_FAILED_CREATING_APP (//)
-Failed to create application\n
+Failed to create application.\n
 ;
 MSG_FAILED_OPEN_RESOURCE (//)
 Failed to open
+;
+;V46.2
+MSG_ERROR_SAVINGFILE (//100)
+Error saving/creating file
+;
+MSG_ERROR_LOADINGFILE (//100)
+Error loading/opening file
+;
+MSG_ERROR_SAVINGRECENT (//100)
+Error saving/creating recent list file
 ;

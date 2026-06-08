@@ -1,2 +1,19 @@
-EditPad 46.1 (2026.mm.dd)
+EditPad 46.1 (2026.02.19)
 -First public release.
+
+
+EditPad 46.2 (2026.03.02)
+-Added ARexx port and comands: QUIT, OPEN, SAVE and SAVEAS.
+-Added PORTNAME and PORTUNIQUE=UNIQUE arguments/tooltypes.
+-Added in about window ARexx port name.
+-Changed to use TheBar.mcc instead of "simple" buttons.
+-Refactored/cleaned code.
+-Added menu options: MARK ALL, TOUPPER case and TOLOWER case.
+-Show error when loading/saving file fails.
+-Added saving recent list to 'ENVARC:EditPad_recent' file.
+-Added menu option: CLEAR RECENTS.
+
+EditPad 46.3 (2026.04.12)
+-Removed debug output.
+-Added context popup menu.
+-Fixed typos, code cleaning.
