@@ -26,7 +26,6 @@ Using as base code: TextEditor-Demo.c 955 2014-04-05 11:46:48Z damato
 #ifndef __amigaos4__
 #include <clib/alib_protos.h>
 #endif
-
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/intuition.h>
@@ -36,7 +35,6 @@ Using as base code: TextEditor-Demo.c 955 2014-04-05 11:46:48Z damato
 #include <proto/gadtools.h>
 #include <proto/icon.h>
 #include <proto/muimaster.h>
-
 
 #include <libraries/mui.h>
 #include <libraries/iffparse.h>
@@ -164,7 +162,7 @@ DBUG("[MUIM_DragQuery]\n",NULL);
     {
       struct MUIP_DragDrop *drop_msg = (struct MUIP_DragDrop *)msg;
       //ULONG active = 0;
-DBUG("[MUIM_DragDrop] %p\n",drop_msg->obj);
+DBUG("[MUIM_DragDrop] 0x%08lx\n",drop_msg->obj);
       //if( GetAttr(MUIA_List_Active,drop_msg->obj,(IPTR *)&active) ) {
       //  DoMethod(editorgad, MUIM_TextEditor_InsertText, StdEntries[active]);
       //}
@@ -173,12 +171,12 @@ DBUG("[MUIM_DragDrop] %p\n",drop_msg->obj);
 
     case MUIM_TextEditor_HandleError:
     {
-      char *errortxt = NULL;
+      char                               *errortxt = NULL;
       struct MUIP_TextEditor_HandleError *msgerr;
 DBUG("[MUIM_TextEditor_HandleError]\n",NULL);
-      //data = (struct editpad_data *)INST_DATA(cl, obj);
+      //struct editpad_data *data = INST_DATA(cl, obj);
       struct editpad_data *epd = (struct editpad_data *)cl->cl_UserData;
-//DBUG("   EPD = %p (%p)\n",epd,cl);
+//DBUG("   EPD = 0x%08lx (0x%08lx)\n",epd,cl);
       msgerr = (struct MUIP_TextEditor_HandleError *)msg;
 
       switch(msgerr->errorcode)
@@ -224,10 +222,9 @@ DBUG("[MUIM_TextEditor_HandleError]\n",NULL);
 
       if(errortxt != NULL)
       {
-//DBUG("  app=%p  win=%p\n",data->App,data->Win);
+//DBUG("  app=0x%08lx  win=0x%08lx\n",data->App,data->Win);
 //        MUI_Request(data->App, data->Win, 0L,
-        MUI_Request(epd->App, epd->Win, 0L,
-                    PROGNAME,
+        MUI_Request(epd->App, epd->Win, 0L, NULL,
                     (STRPTR)GetString(&li,MSG_CONTINUE_BUTTON_PLAIN),
                     errortxt);
       }
@@ -486,17 +483,17 @@ DBUG("*****"PROGNAME" START*****\n",NULL);
       if(argc == 0)
       {
         struct WBStartup *wbs = (struct WBStartup *)argv;
-        struct WBArg     *arg = &wbs->sm_ArgList[1];
-        char              buf[MAX_DOS_PATH];
-//DBUG("  from WB: '%s'\n",arg->wa_Name);
-        if(arg->wa_Name)
+DBUG("  from WB: %ld\n",wbs->sm_NumArgs);
+        if(wbs->sm_NumArgs != 1)
         {
+          struct WBArg *arg = &wbs->sm_ArgList[1];
+          char          buf[MAX_DOS_PATH];
+DBUG("           0x%08lx '%s'\n",arg->wa_Name,arg->wa_Name);
           NameFromLock(arg->wa_Lock, buf, MAX_DOS_PATH);
           AddPart(buf, arg->wa_Name, MAX_DOS_PATH);
 
           EPD->epd_FullName = DupStr(buf, -1);
         }
-
         Read_ToolTypes(EPD);
       }
 
@@ -508,7 +505,7 @@ DBUG("*****"PROGNAME" START*****\n",NULL);
 
         //editor_mcc->mcc_UserData = (APTR)EPD;
         editor_mcc->mcc_Class->cl_UserData = (ULONG)EPD; // used in DISPATCHERPROTO()'s MUIM_TextEditor_HandleError
-DBUG("   EPD = %p (%p)\n",EPD,editor_mcc->mcc_Class);
+//DBUG("   EPD = 0x%08lx (0x%08lx)\n",EPD,editor_mcc->mcc_Class);
 
         // Init some GUI stuff
         EPD->MenuStrip = Create_Menu();
@@ -522,7 +519,7 @@ DBUG("   EPD = %p (%p)\n",EPD,editor_mcc->mcc_Class);
         snprintf(statusLC_len, sizeof(statusLC_len), GetString(&li,MSG_STATUS_LIN_COL),8888,88888);
 
 
-#include "gui_editpad.h" // "inserting" GUI objects
+#include "gui_editpad.h" // "inserting" GUI an its objects
 
 
         if(EPD->App)
@@ -695,7 +692,11 @@ DBUG("   EPD = %p (%p)\n",EPD,editor_mcc->mcc_Class);
 
         }
         else {
-          PutStr( GetString(&li,MSG_FAILED_CREATING_APP) );
+          //PutStr( GetString(&li,MSG_FAILED_CREATING_APP) );
+          MUI_Request(NULL, NULL, 0L,
+                      PROGNAME,
+                      (STRPTR)GetString(&li,MSG_CONTINUE_BUTTON_PLAIN),
+                      (STRPTR)GetString(&li,MSG_FAILED_CREATING_APP));
         }
 
         FreeDiskObject(dobj);
@@ -705,7 +706,12 @@ DBUG("   EPD = %p (%p)\n",EPD,editor_mcc->mcc_Class);
         MUI_DeleteCustomClass(editor_mcc);
       }
       else {
-        Printf("%s '"MUIC_TextEditor"'.\n",GetString(&li,MSG_FAILED_OPEN_RESOURCE));
+        //Printf("%s '"MUIC_TextEditor"'.\n",GetString(&li,MSG_FAILED_OPEN_RESOURCE));
+        MUI_Request(NULL, NULL, 0L,
+                    PROGNAME,
+                    (STRPTR)GetString(&li,MSG_CONTINUE_BUTTON_PLAIN),
+                    (STRPTR)GetString(&li,MSG_FAILED_OPEN_RESOURCE2),MUIC_TextEditor);
+
       }
 
       FreeString(&EPD->epd_FRDrawer);
@@ -717,8 +723,7 @@ DBUG("   EPD = %p (%p)\n",EPD,editor_mcc->mcc_Class);
 
       FreeArgs(args);
     }
-    else
-    {
+    else {
       LONG error = IoErr();
 
       PrintFault(error, EPD->epd_ProgName);

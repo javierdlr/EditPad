@@ -3,19 +3,12 @@
 
 #ifndef __amigaos4__
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/muimaster_protos.h>
-#include <clib/icon_protos.h>
-#include <clib/asl_protos.h>
-#else
+#endif
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/muimaster.h>
 #include <proto/icon.h>
 #include <proto/asl.h>
-#endif
-
 
 #include <libraries/mui.h>
 #include <mui/TextEditor_mcc.h>
@@ -32,6 +25,11 @@
 #include "editpad_catalog.h"
 extern struct LocaleInfo li;
 //extern STRPTR textbuf; // for localized messages
+
+
+#if defined(__amigaos4__)
+#include <dos/obsolete.h>
+#endif
 
 
 #include "debug.h"
@@ -106,7 +104,7 @@ void Set_WindowTitle(struct editpad_data *epd)
   static char wintitle[MAX_DOS_PATH];
 
   snprintf(wintitle, MAX_DOS_PATH, PROGNAME": %s",epd->epd_FullName);
-  set(epd->Win, MUIA_Window_Title,wintitle);
+  set(epd->Win, MUIA_Window_Title, wintitle);
 }
 
 
@@ -117,7 +115,7 @@ static LONG get_FileAttribs(struct editpad_data *epd)
 {
   ULONG attribs = FIBF_EXECUTE; // RW-D (E bit not set); looks like is "inversed mode"
   BPTR  lock;
-DBUG("%s() %p\n",__FUNCTION__,epd->epd_FullName);
+DBUG("%s() 0x%08lx\n",__FUNCTION__,epd->epd_FullName);
   if( epd->epd_FullName!=NULL  &&  (lock=Lock(epd->epd_FullName,ACCESS_READ)) )
   {
     struct FileInfoBlock *fib = (struct FileInfoBlock *)AllocDosObject(DOS_FIB, NULL);
@@ -142,7 +140,7 @@ void Split_FullName(struct editpad_data *epd)
 DBUG("%s()\n",__FUNCTION__);
   FreeString(&epd->epd_FRFile);
   FreeString(&epd->epd_FRDrawer);
-
+DBUG("  epd_FullName 0x%08lx\n",epd->epd_FullName);
   epd->epd_FRFile = DupStr(FilePart(epd->epd_FullName), -1);
 DBUG("  epd_FRFile: '%s'\n",epd->epd_FRFile);
   len -= strlen(epd->epd_FRFile);
@@ -160,7 +158,7 @@ void Save_File(struct editpad_data *epd)
   BPTR fh;
   char error_str[250];
   LONG attribs = get_FileAttribs(epd);
-DBUG("%s() %p 0x%08lx\n",__FUNCTION__,epd->epd_FullName,attribs);
+DBUG("%s() 0x%08lx (0x%08lx)\n",__FUNCTION__,epd->epd_FullName,attribs);
 
   if(epd->epd_FullName == NULL) { return; }
 
@@ -168,7 +166,6 @@ DBUG("%s() %p 0x%08lx\n",__FUNCTION__,epd->epd_FullName,attribs);
   {
     STRPTR text = (STRPTR)DoMethod(epd->EditorObj, MUIM_TextEditor_ExportText);
 
-    //Write( fh, text, strlen(text) );
     if(Write(fh,text,strlen(text)) != -1)
     {
       Close(fh);
@@ -190,8 +187,7 @@ DBUG("%s() OK\n",__FUNCTION__);
 
 DBUG("%s() ERROR\n",__FUNCTION__);
     Fault( IoErr(), (STRPTR)GetString(&li,MSG_ERROR_SAVINGFILE), error_str, sizeof(error_str) );
-    MUI_Request(epd->App, epd->Win, 0L,
-                PROGNAME,
+    MUI_Request(epd->App, epd->Win, 0L, NULL,
                 (STRPTR)GetString(&li,MSG_OK_BUTTON_PLAIN),
                 error_str);
 }
@@ -204,11 +200,10 @@ BOOL Load_File(struct editpad_data *epd)
 {
   BPTR fh;
   BOOL ret = FALSE;
-DBUG("%s() %p\n",__FUNCTION__,epd->epd_FullName);
+DBUG("%s() 0x%08lx\n",__FUNCTION__,epd->epd_FullName);
 
   if(epd->epd_FullName == NULL) { return FALSE; }
 
-  //if( epd->epd_FullName!=NULL  &&  (fh = Open(epd->epd_FullName, MODE_OLDFILE)) )
   if( (fh=Open(epd->epd_FullName,MODE_OLDFILE)) )
   {
     struct FileInfoBlock *fib;
@@ -251,8 +246,7 @@ DBUG("%s() OK\n",__FUNCTION__);
     char error_str[250];
 DBUG("%s() ERROR\n",__FUNCTION__);
     Fault( IoErr(), (STRPTR)GetString(&li,MSG_ERROR_LOADINGFILE), error_str, sizeof(error_str) );
-    MUI_Request(epd->App, epd->Win, 0L,
-                PROGNAME,
+    MUI_Request(epd->App, epd->Win, 0L, NULL,
                 (STRPTR)GetString(&li,MSG_OK_BUTTON_PLAIN),
                 error_str);
   }
@@ -267,15 +261,14 @@ DBUG("%s() ERROR\n",__FUNCTION__);
  */
 LONG FileRequest_ASL(struct editpad_data *epd, CONST_STRPTR title, BOOL save)
 {
-DBUG("%s()  [DoSave=%ld]\n",__FUNCTION__,save);
-
+DBUG("%s()  [DoSave=%ld] 0x%08lx\n",__FUNCTION__,save,epd->epd_FullName);
 	if(epd->AslReq)
 	{
 		struct Window *win;
 
 		get(epd->Win, MUIA_Window_Window, &win);
 
-		if(epd->epd_FullName)
+		if(epd->epd_FullName != NULL)
 		{
 			Split_FullName(epd); // "fills" epd_FRDrawer & epd_FRFile
 		}
@@ -319,4 +312,30 @@ DBUG("%s() OK\n",__FUNCTION__);
 	}
 
 	return FALSE;
+}
+
+
+/*
+ * Print/Send file to PRT:
+ */
+void Print_File(struct editpad_data *epd)
+{
+  BPTR fh;
+  char error_str[250];
+DBUG("%s()\n",__FUNCTION__);
+  if( (fh=Open("PRT:",MODE_NEWFILE)) )
+  {
+    STRPTR text = (STRPTR)DoMethod(epd->EditorObj, MUIM_TextEditor_ExportText);
+
+    Write( fh, text, strlen(text) );
+    Close(fh);
+    FreeVec(text);
+  }
+  else
+  {
+    Fault( IoErr(), (STRPTR)GetString(&li,MSG_ERROR_PRINTINGFILE), error_str, sizeof(error_str) );
+    MUI_Request(epd->App, epd->Win, 0L, NULL,
+                (STRPTR)GetString(&li,MSG_OK_BUTTON_PLAIN),
+                error_str);
+  }
 }

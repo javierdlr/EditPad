@@ -3,14 +3,9 @@
 
 #ifndef __amigaos4__
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/muimaster_protos.h>
-//#include <clib/rexxsyslib_protos.h>
-#else
+#endif
 #include <proto/exec.h>
 #include <proto/muimaster.h>
-#endif
 
 #include <libraries/mui.h>
 #include <mui/TextEditor_mcc.h>
@@ -215,11 +210,13 @@ ULONG Process_Events(struct editpad_data *epd)
                     "\033c\033b"VERS" ("DATE")\033n\n\nCopyright (C) 2026 AmigaKit Ltd\n\n"
                     "\033u%s\033n\nJavier de las Rivas\n"
                     "\033u%s\033n\nTextEditor.mcc Open Source Team\n"
-                    "\033u%s\033n\nAndy Broad\n\n"
+                    "\033u%s\033n\nAndy Broad\n"
+                    "\033u%s\033n\n%s\n\n"
                     "%s %s",
                      GetString(&li,MSG_ABOUT_WRITTENBY),
                      GetString(&li,MSG_ABOUT_SOURCECODE),
                      GetString(&li,MSG_ABOUT_CONTRIB),
+                     GetString(&li,MSG_ABOUT_TRANSLATION),GetString(&li,MSG_ABOUT_TRANSLATORS),
                      GetString(&li,MSG_ABOUT_AREXXPORT), portname);
       }
       break;
@@ -296,6 +293,10 @@ DBUG("  [MID_PROJECT_RECENT]\n",NULL);
         {
          Save_File(epd);
         }
+      break;
+      case MID_PROJECT_PRINT:
+DBUG("  MID_PROJECT_PRINT\n",NULL);
+        Print_File(epd);
       break;
       case MID_EDIT_CUT:
         DoMethod(epd->EditorObj, MUIM_TextEditor_ARexxCmd, "CUT");

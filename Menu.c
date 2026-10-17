@@ -2,14 +2,10 @@
 
 #ifndef __amigaos4__
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/muimaster_protos.h>
-#else
+#endif
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/muimaster.h>
-#endif
 
 #include <libraries/gadtools.h>
 #include <libraries/mui.h>
@@ -22,6 +18,11 @@
 #include "editpad_catalog.h"
 extern struct LocaleInfo li;
 //extern STRPTR textbuf; // for localized messages
+
+
+#if defined(__amigaos4__)
+#include <dos/obsolete.h>
+#endif
 
 
 #include "debug.h"
@@ -53,6 +54,8 @@ DBUG("%s()\n",__FUNCTION__);
 		{ NM_ITEM,  NM_BARLABEL, NULL, 0, 0, NULL },
 		{ NM_ITEM,  GetString(&li,MSG_PROJECT_SAVE),         "S",  0, 0, (APTR)MID_PROJECT_SAVE         },
 		{ NM_ITEM,  GetString(&li,MSG_PROJECT_SAVEAS),       NULL, 0, 0, (APTR)MID_PROJECT_SAVEAS       },
+		{ NM_ITEM,  NM_BARLABEL, NULL, 0, 0, NULL },
+		{ NM_ITEM,  GetString(&li,MSG_PROJECT_PRINT),        "P",  0, 0, (APTR)MID_PROJECT_PRINT        },
 		{ NM_ITEM,  NM_BARLABEL, NULL, 0, 0, NULL },
 		{ NM_ITEM,  GetString(&li,MSG_PROJECT_ICONIFY),      "I",  0, 0, (APTR)MID_PROJECT_ICONIFY      },
 		{ NM_ITEM,  GetString(&li,MSG_PROJECT_ABOUT),        "?",  0, 0, (APTR)MID_PROJECT_ABOUT        },
@@ -133,7 +136,7 @@ DBUG("  REMOVING [1]'%s' and SHIFTING entries...\n",itemname);
   i = MID_PROJECT_RECENTBAR + epd->epd_RecentIdx; // MID_PROJECT_RECENTx (1,2,3,..)
   epd->MenuRecentItem[epd->epd_RecentIdx] = MUI_MakeObject(MUIO_Menuitem, FilePart(itemname), 0,0,i);
   DoMethod(epd->MenuRecentItem[epd->epd_RecentIdx], MUIM_Notify, MUIA_Menuitem_Trigger,MUIV_EveryTime, epd->App, 2, MUIM_Application_ReturnID, i);
-DBUG("  ADDED %p [%ld]'%s'\n",epd->MenuRecentItem[epd->epd_RecentIdx],epd->epd_RecentIdx,itemname);
+DBUG("  ADDED 0x%08lx [%ld]'%s'\n",epd->MenuRecentItem[epd->epd_RecentIdx],epd->epd_RecentIdx,itemname);
   // Insert entry below last one and "remember" string pointer
   DoMethod(epd->MenuStrip, MUIM_Family_Insert, epd->MenuRecentItem[epd->epd_RecentIdx], epd->MenuRecentItem[epd->epd_RecentIdx-1]);
   set(epd->MenuRecentItem[epd->epd_RecentIdx], MUIA_UserData, itemname);
@@ -171,7 +174,7 @@ DBUG("%s() recents=%ld\n",__FUNCTION__,epd->epd_RecentIdx);
   while(epd->epd_RecentIdx)
   {
     get(epd->MenuRecentItem[epd->epd_RecentIdx], MUIA_UserData, &itemname);
-DBUG("  %p [%ld]'%s'\n",epd->MenuRecentItem[epd->epd_RecentIdx],epd->epd_RecentIdx,itemname);
+DBUG("  0x%08lx [%ld]'%s'\n",epd->MenuRecentItem[epd->epd_RecentIdx],epd->epd_RecentIdx,itemname);
     if(fh)
     {
 DBUG("             SAVED in '"RECENT_PATH""RECENT_FILE"\n",NULL);
@@ -203,7 +206,7 @@ DBUG("%s() recents=%ld\n",__FUNCTION__,epd->epd_RecentIdx);
     while(i)
     {
       get(epd->MenuRecentItem[i], MUIA_UserData, &itemname);
-DBUG("  %p [%ld]'%s'\n",epd->MenuRecentItem[i],i,itemname);
+DBUG("  0x%08lx [%ld]'%s'\n",epd->MenuRecentItem[i],i,itemname);
       Write( fh, itemname, strlen(itemname) );
       Write( fh, "\n", 1);
       --i;
@@ -251,19 +254,19 @@ DBUG("  recents=%ld\n",epd->epd_RecentIdx);
 APTR Create_PopUpMenu(void)
 {
 DBUG("%s()\n",__FUNCTION__);
- struct NewMenu popupmenus[] =
- {
-   { NM_TITLE, PROGNAME, 0, 0, 0, (APTR)0 },
-   //{ NM_ITEM,  "Block-mark start", NULL, 0, 0, (APTR)PID_MARK_START },
-   //{ NM_ITEM,  "Block-mark end",   NULL, 0, 0, (APTR)PID_MARK_END   },
-   { NM_ITEM, GetString(&li,MSG_EDIT_CUT),     NULL, 0, 0, (APTR)PID_CUT     },
-   { NM_ITEM, GetString(&li,MSG_EDIT_COPY),    NULL, 0, 0, (APTR)PID_COPY    },
-   { NM_ITEM, GetString(&li,MSG_EDIT_PASTE),   NULL, 0, 0, (APTR)PID_PASTE   },
-   { NM_ITEM, GetString(&li,MSG_EDIT_ERASE),   NULL, 0, 0, (APTR)PID_ERASE   },
-   { NM_ITEM, GetString(&li,MSG_EDIT_MARKALL), NULL, 0, 0, (APTR)PID_MARKALL },
+	struct NewMenu popupmenus[] =
+	{
+		{ NM_TITLE, PROGNAME, 0, 0, 0, (APTR)0 },
+		//{ NM_ITEM,  "Block-mark start", NULL, 0, 0, (APTR)PID_MARK_START },
+		//{ NM_ITEM,  "Block-mark end",   NULL, 0, 0, (APTR)PID_MARK_END   },
+		{ NM_ITEM, GetString(&li,MSG_EDIT_CUT),     NULL, 0, 0, (APTR)PID_CUT     },
+		{ NM_ITEM, GetString(&li,MSG_EDIT_COPY),    NULL, 0, 0, (APTR)PID_COPY    },
+		{ NM_ITEM, GetString(&li,MSG_EDIT_PASTE),   NULL, 0, 0, (APTR)PID_PASTE   },
+		{ NM_ITEM, GetString(&li,MSG_EDIT_ERASE),   NULL, 0, 0, (APTR)PID_ERASE   },
+		{ NM_ITEM, GetString(&li,MSG_EDIT_MARKALL), NULL, 0, 0, (APTR)PID_MARKALL },
 
-   { NM_END,   NULL, 0, 0, 0, (APTR)0 }
- };
+		{ NM_END,   NULL, 0, 0, 0, (APTR)0 }
+	};
 
 	return MUI_MakeObject(MUIO_MenustripNM, popupmenus, 0);
 }
