@@ -1,4 +1,4 @@
-; $VER: EditPad.cd 46.2 (03.03.2026)
+; $VER: EditPad.cd 46.3 (14.05.2026)
 ;
 ; V46.1 (23.02.2026) - javierdlr <jabierdlr@gmail.com>
 ;
@@ -6,6 +6,11 @@
 ;      Added: MSG_ABOUT_AREXXPORT, MSG_EDIT_TOUPPER, MSG_EDIT_TOLOWER,
 ;             MSG_EDIT_MARKALL, MSG_ERROR_SAVINGFILE, MSG_ERROR_LOADINGFILE,
 ;             MSG_PROJECT_RECENTCLEAR, MSG_ERROR_SAVINGRECENT
+;
+; V46.3 (14.05.2026) - javierdlr <jabierdlr@gmail.com>
+;      Added: MSG_PROJECT_PRINT, MSG_ERROR_PRINTINGFILE, MSG_FAILED_OPEN_RESOURCE2,
+;             MSG_ABOUT_TRANSLATION, MSG_ABOUT_TRANSLATORS
+;      Deprecated: MSG_FAILED_OPEN_RESOURCE
 ;
 ;
 MSG_PROJECT_MENU (//)
@@ -83,7 +88,6 @@ Settings
 MSG_SETTINGS_TABS (//)
 Tabs to spaces
 ;
-;
 MSG_TOOLBAR_OPEN (100//)
 Open
 ;
@@ -114,7 +118,7 @@ Clear all
 MSG_TOOLBAR_FIND (//30)
 _Find
 ;
-;46.2
+;V46.2
 MSG_EDIT_TOUPPER (//)
 To UPPER case
 ;
@@ -126,6 +130,10 @@ Mark all
 ;
 MSG_PROJECT_RECENTCLEAR (//)
 -Clear Recent List-
+;
+;V46.3
+MSG_PROJECT_PRINT (//)
+Print
 ;
 ;
 MSG_OK_BUTTON_PLAIN (200//)
@@ -222,6 +230,16 @@ MSG_FIND_REPLACE_ALL (//)
 MSG_ABOUT_AREXXPORT (//)
 ARexx port:
 ;
+;V46.3
+MSG_ABOUT_TRANSLATION (//40)
+Translated by
+;
+;SORT BY NAME (ADD YOURS)
+MSG_ABOUT_TRANSLATORS (//256)
+(using built-in strings)
+;SORT BY NAME (ADD YOURS)
+;Example:
+;Javier de las Rivas (spanish)
 ;
 MSG_ERROR_CLIPBOARD_EMPTY (300//)
 The clipboard is empty.
@@ -246,6 +264,7 @@ The undobuffer is lost.
 MSG_FAILED_CREATING_APP (//)
 Failed to create application.\n
 ;
+;V46.3 DEPRECATED
 MSG_FAILED_OPEN_RESOURCE (//)
 Failed to open
 ;
@@ -258,4 +277,11 @@ Error loading/opening file
 ;
 MSG_ERROR_SAVINGRECENT (//100)
 Error saving/creating recent list file
+;
+;V46.3
+MSG_ERROR_PRINTINGFILE (//100)
+Error printing file
+;
+MSG_FAILED_OPEN_RESOURCE2 (//)
+Failed to open '%s'.
 ;
