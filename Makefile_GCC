@@ -4,7 +4,28 @@ STRIP = $(HOST)-strip
 
 TARGET  = EditPad
 VERSION = 46
-LASTREV = $(shell c:type $(TARGET)_rev.rev)
+
+
+OS := $(shell uname)
+
+ifeq ($(strip $(OS)),AmigaOS)
+  AMIGADATE = $(shell c:date LFORMAT %d.%m.%Y)
+#  YEAR = $(shell c:date LFORMAT %Y)
+  RM = delete
+  LASTREV = $(shell c:type $(TARGET)_rev.rev)
+  INCLUDES = -I. -ISDK:MUI/C/include
+  COPY = C:Copy CLONE FORCE
+  CATCOMP= APPDIR:FlexCat
+else
+  AMIGADATE = $(shell date +"%-d.%-m.%Y")
+#  YEAR = $(shell date +"%Y")
+  RM = rm -f -r
+  #LASTREV = $(shell c:type $(TARGET)_rev.rev)
+  INCLUDES = -I. -I/opt/ppc-amigaos/
+  COPY = cp -f
+  CATCOMP= flexcat
+endif
+
 
 OPTIMIZE = -O2
 DEBUG    = -gstabs -DDEBUG
@@ -32,27 +53,28 @@ OBJS = $(SRCS:.c=.o)
 all: $(TARGET)
 
 editpad_catalog.h: EditPad.cd
-	catcomp $< cfile $@
+#	$(CATCOMP) $< CFILE $@
+	-$(CATCOMP) $< $@=catcomp_h.sd 
 
-EditPad.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h editpad_catalog.h
-Menu.o: menu.h editpad.h editpad_catalog.h
-Events.o: $(TARGET)_rev.h gui_editpad.h editpad.h menu.h events.h editpad_catalog.h
-ArexxCmds.o: arexxcmds.h editpad.h menu.h
-Misc.o: misc.h editpad.h menu.h
+EditPad.o: $(TARGET)_rev.h gui_editpad.h EditPad.h Menu.h editpad_catalog.h
+Menu.o: Menu.h EditPad.h editpad_catalog.h
+Events.o: $(TARGET)_rev.h gui_editpad.h EditPad.h Menu.h Events.h editpad_catalog.h
+ArexxCmds.o: ArexxCmds.h EditPad.h Menu.h
+Misc.o: Misc.h EditPad.h Menu.h
 
 
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@.debug $^ $(LDLIBS)
-	C:Copy $@.debug $@ FORCE CLONE
+	$(COPY) $@.debug $@ 
 #	$(STRIP) $(STRIPFLAGS) -o $@ $@.debug
 
 %.catalog: %.ct catalogs/EditPad.cd
-	-flexcat CATALOG $@ catalogs/EditPad.cd $<
+	-$(CATCOMP) CATALOG $@ catalogs/EditPad.cd $<
 
 
 .PHONY: catalogs
 catalogs:
-	flexcat EditPad.cd EditPad_ES.ct CATALOG catalogs/spanish/EditPad.catalog
+	$(CATCOMP) EditPad.cd EditPad_ES.ct CATALOG catalogs/spanish/EditPad.catalog
 
 
 .PHONY: clean
